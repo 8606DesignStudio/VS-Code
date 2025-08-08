@@ -1,0 +1,22 @@
+{
+  "name": "spaceship_v4a",
+  "version": "1.0.0",
+  "description": "The Kastle - Interactive podcast episode browser",
+  "main": "script.js",
+  "scripts": {
+    "dev": "http-server . -p 8000 -c-1",
+    "start": "python -m http.server 8000",
+    "generate-episodes": "node scripts/generate_episodes_data.js"
+  },
+  "keywords": [
+    "podcast",
+    "interactive",
+    "episodes"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

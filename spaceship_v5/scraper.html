@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scraper - Heart Emoji Podcast</title>
+    
+    <!-- Google Fonts - Quicksand for consistency -->
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #000000 url('public/cockpit.jpg') center top/100% auto no-repeat;
+            color: white;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        .back-button a {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #ffd700, #ffb347);
+            color: #8b4513;
+            text-decoration: none;
+            border-radius: 6px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 2px 8px rgba(255, 215, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+        }
+
+        .back-button a:hover {
+            background: linear-gradient(135deg, #ffed4e, #ffd700);
+            transform: translateY(-1px);
+            box-shadow: 
+                0 4px 12px rgba(255, 215, 0, 0.4),
+                0 0 0 1px rgba(255, 255, 255, 0.2);
+        }
+
+        .content {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #4bb8e9;
+            text-shadow: 
+                0 0 5px rgba(138, 43, 226, 0.9),
+                0 0 10px rgba(147, 112, 219, 0.8),
+                0 0 15px rgba(123, 104, 238, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <!-- Back button -->
+    <div class="back-button">
+        <a href="index.html">← Back</a>
+    </div>
+    
+    <!-- Main content -->
+    <div class="content">
+        <h1>Web Scraper</h1>
+        <p class="subtitle">Extract text content from any webpage</p>
+        
+        <!-- URL Input Form -->
+        <div class="scraper-form">
+            <input 
+                type="url" 
+                id="urlInput" 
+                placeholder="https://example.com" 
+                class="url-input"
+                required
+            >
+            <button id="scrapeButton" class="scrape-button">
+                <span class="button-text">Scrape Text</span>
+                <span class="loading-spinner" style="display: none;">⏳</span>
+            </button>
+        </div>
+        
+        <!-- Status Messages -->
+        <div id="statusMessage" class="status-message"></div>
+        
+        <!-- Results Area -->
+        <div id="resultsArea" class="results-area" style="display: none;">
+            <h3>Scraped Content Preview:</h3>
+            <div id="contentPreview" class="content-preview"></div>
+            <button id="downloadButton" class="download-button">
+                📥 Download as .txt file
+            </button>
+        </div>
+    </div>
+    
+    <script>
+        let scrapedContent = '';
+        
+        // Get DOM elements
+        const urlInput = document.getElementById('urlInput');
+        const scrapeButton = document.getElementById('scrapeButton');
+        const statusMessage = document.getElementById('statusMessage');
+        const resultsArea = document.getElementById('resultsArea');
+        const contentPreview = document.getElementById('contentPreview');
+        const downloadButton = document.getElementById('downloadButton');
+        const buttonText = document.querySelector('.button-text');
+        const loadingSpinner = document.querySelector('.loading-spinner');
+        
+        // Scrape button click handler
+        scrapeButton.addEventListener('click', async () => {
+            const url = urlInput.value.trim();
+            
+            // Validate URL
+            if (!url) {
+                showStatus('Please enter a URL', 'error');
+                return;
+            }
+            
+            if (!isValidUrl(url)) {
+                showStatus('Please enter a valid URL', 'error');
+                return;
+            }
+            
+            // Start scraping
+            setLoadingState(true);
+            showStatus('Scraping content...', 'loading');
+            resultsArea.style.display = 'none';
+            
+            try {
+                const content = await scrapeUrl(url);
+                scrapedContent = content;
+                
+                // Show results
+                showStatus('✅ Content scraped successfully!', 'success');
+                displayResults(content);
+                
+            } catch (error) {
+                console.error('Scraping error:', error);
+                showStatus('❌ Failed to scrape content. Please check the URL and try again.', 'error');
+            } finally {
+                setLoadingState(false);
+            }
+        });
+        
+        // Download button click handler
+        downloadButton.addEventListener('click', () => {
+            if (scrapedContent) {
+                downloadTextFile(scrapedContent, getFilename(urlInput.value));
+            }
+        });
+        
+        // Enter key handler for URL input
+        urlInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                scrapeButton.click();
+            }
+        });
+        
+        // Scraping function using a CORS proxy
+        async function scrapeUrl(url) {
+            // Using allorigins.win as a CORS proxy
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+            
+            const response = await fetch(proxyUrl);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            const htmlContent = data.contents;
+            
+            // Parse HTML and extract text
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlContent, 'text/html');
+            
+            // Remove script and style elements
+            const scripts = doc.querySelectorAll('script, style, nav, header, footer');
+            scripts.forEach(el => el.remove());
+            
+            // Extract text content
+            const textContent = doc.body ? doc.body.innerText : doc.innerText;
+            
+            // Clean up the text
+            return textContent
+                .replace(/\s+/g, ' ') // Replace multiple spaces with single space
+                .replace(/\n\s*\n/g, '\n\n') // Clean up line breaks
+                .trim();
+        }
+        
+        // Utility functions
+        function isValidUrl(string) {
+            try {
+                new URL(string);
+                return true;
+            } catch (_) {
+                return false;
+            }
+        }
+        
+        function showStatus(message, type) {
+            statusMessage.textContent = message;
+            statusMessage.className = `status-message ${type}`;
+        }
+        
+        function setLoadingState(loading) {
+            scrapeButton.disabled = loading;
+            buttonText.style.display = loading ? 'none' : 'inline';
+            loadingSpinner.style.display = loading ? 'inline' : 'none';
+        }
+        
+        function displayResults(content) {
+            const preview = content.length > 500 ? content.substring(0, 500) + '...' : content;
+            contentPreview.textContent = preview;
+            resultsArea.style.display = 'block';
+        }
+        
+        function getFilename(url) {
+            try {
+                const urlObj = new URL(url);
+                const domain = urlObj.hostname.replace('www.', '');
+                const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+                return `scraped-${domain}-${timestamp}.txt`;
+            } catch {
+                return `scraped-content-${Date.now()}.txt`;
+            }
+        }
+        
+        function downloadTextFile(content, filename) {
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = window.URL.createObjectURL(blob);
+            
+            // Try modern approach first (better for mobile)
+            if (navigator.share && navigator.canShare && navigator.canShare({ files: [new File([content], filename, { type: 'text/plain' })] })) {
+                // Use Web Share API for mobile devices
+                const file = new File([content], filename, { type: 'text/plain' });
+                navigator.share({
+                    files: [file],
+                    title: 'Scraped Content',
+                    text: 'Downloaded scraped text content'
+                }).catch(err => {
+                    console.log('Share failed, falling back to download');
+                    fallbackDownload(url, filename);
+                });
+            } else {
+                // Fallback for desktop and older mobile browsers
+                fallbackDownload(url, filename);
+            }
+            
+            function fallbackDownload(url, filename) {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                
+                // Use setTimeout to ensure the link is properly added to DOM
+                setTimeout(() => {
+                    a.click();
+                    // Clean up after a delay to ensure download starts
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        window.URL.revokeObjectURL(url);
+                    }, 100);
+                }, 10);
+            }
+        }
+    </script>
+    
+    <style>
+        .subtitle {
+            font-size: 1.2rem;
+            color: #87ceeb;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .scraper-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .url-input {
+            padding: 12px 16px;
+            border: 2px solid rgba(75, 184, 233, 0.3);
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .url-input:focus {
+            outline: none;
+            border-color: #4bb8e9;
+            box-shadow: 0 0 0 3px rgba(75, 184, 233, 0.2);
+        }
+        
+        .url-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .scrape-button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #4bb8e9, #87ceeb);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(75, 184, 233, 0.3);
+        }
+        
+        .scrape-button:hover:not(:disabled) {
+            background: linear-gradient(135deg, #87ceeb, #add8e6);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(75, 184, 233, 0.4);
+        }
+        
+        .scrape-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .status-message {
+            margin: 15px 0;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: 500;
+            min-height: 20px;
+        }
+        
+        .status-message.success {
+            background: rgba(46, 204, 113, 0.2);
+            border: 1px solid rgba(46, 204, 113, 0.4);
+            color: #2ecc71;
+        }
+        
+        .status-message.error {
+            background: rgba(231, 76, 60, 0.2);
+            border: 1px solid rgba(231, 76, 60, 0.4);
+            color: #e74c3c;
+        }
+        
+        .status-message.loading {
+            background: rgba(52, 152, 219, 0.2);
+            border: 1px solid rgba(52, 152, 219, 0.4);
+            color: #3498db;
+        }
+        
+        .results-area {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .results-area h3 {
+            color: #4bb8e9;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .content-preview {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            white-space: pre-wrap;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .download-button {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(46, 204, 113, 0.3);
+        }
+        
+        .download-button:hover {
+            background: linear-gradient(135deg, #27ae60, #229954);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(46, 204, 113, 0.4);
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</body>
+</html>
