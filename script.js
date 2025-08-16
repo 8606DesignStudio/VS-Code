@@ -92,6 +92,62 @@ dialElement.addEventListener('click', () => spin());
 touchArea.addEventListener('touchstart', (e) => handleTouchStart(e));
 touchArea.addEventListener('touchmove', (e) => handleTouchMove(e));
 
+// Wheel/scroll handling: keep scrolling active indefinitely while pointer is over the dial
+let isPointerOverDial = false;
+let wheelDeltaAccum = 0;
+const WHEEL_STEP = 40; // pixels of deltaY per step (adjust sensitivity)
+const WHEEL_RESET_TIMEOUT = 150; // ms to reset accumulated delta after pause
+let wheelResetTimer = null;
+
+function handlePointerEnter() {
+    isPointerOverDial = true;
+}
+
+function handlePointerLeave() {
+    isPointerOverDial = false;
+    wheelDeltaAccum = 0;
+    if (wheelResetTimer) {
+        clearTimeout(wheelResetTimer);
+        wheelResetTimer = null;
+    }
+}
+
+// Track hover for both the visible dial and the invisible touch area
+dialElement.addEventListener('pointerenter', handlePointerEnter);
+dialElement.addEventListener('pointerleave', handlePointerLeave);
+touchArea.addEventListener('pointerenter', handlePointerEnter);
+touchArea.addEventListener('pointerleave', handlePointerLeave);
+
+function handleWheel(e) {
+    if (!isPointerOverDial) return; // only act when pointer is over the dial
+    // prevent page from scrolling while interacting with the dial
+    e.preventDefault();
+
+    // Accumulate deltaY to support smooth touchpad scrolling
+    wheelDeltaAccum += e.deltaY;
+
+    const steps = Math.trunc(Math.abs(wheelDeltaAccum) / WHEEL_STEP);
+    if (steps > 0) {
+        const direction = wheelDeltaAccum > 0 ? 1 : -1;
+
+        currentNumber = (currentNumber + direction * steps) % (maxEpisode + 1);
+        if (currentNumber < 0) currentNumber += (maxEpisode + 1);
+
+        updateDialOnly();
+        updateEpisodeContent();
+
+        // Keep remainder so very fast scrolls map to multiple steps correctly
+        wheelDeltaAccum = wheelDeltaAccum % WHEEL_STEP;
+    }
+
+    // Reset accumulator shortly after scrolling stops
+    if (wheelResetTimer) clearTimeout(wheelResetTimer);
+    wheelResetTimer = setTimeout(() => { wheelDeltaAccum = 0; wheelResetTimer = null; }, WHEEL_RESET_TIMEOUT);
+}
+
+// Add a global wheel listener but keep it non-passive so we can prevent default when needed
+window.addEventListener('wheel', handleWheel, { passive: false });
+
 // Click handler for desktop
 function spin() {
     currentNumber = (currentNumber + 1) % (maxEpisode + 1);
