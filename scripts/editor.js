@@ -19,7 +19,7 @@
       <strong>Overlay Editor</strong>
       <button id="closeEditor" style="background:#fff;color:#000;border:none;padding:4px 8px;cursor:pointer">Close</button>
     </div>
-    <div style="font-size:13px;margin-bottom:8px">Click "Pick" then click the image to set that corner.</div>
+  <div id="pickHint" style="font-size:13px;margin-bottom:8px">Click "Pick" then click the image to set points A → D in order.</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
       <label>Point A X<input id="p0x" type="number"></label>
       <label>Point A Y<input id="p0y" type="number"></label>
@@ -102,11 +102,14 @@
       fo.style.pointerEvents = 'auto';
     }
 
-    // click pick handler
+    // click pick handler — require exactly 4 clicks in order (A->D)
     let pickIndex = null;
-    document.getElementById('pickPoint').addEventListener('click', ()=>{
-      pickIndex = 0; // start with point A, then cycle
-      alert('Click the image to set Point A. You will be prompted for next points.');
+    const pickBtn = document.getElementById('pickPoint');
+    const pickHint = document.getElementById('pickHint');
+    pickBtn.addEventListener('click', ()=>{
+      pickIndex = 0; // start with point A
+      pickHint.textContent = 'Picking mode: click image for Point A';
+      pickBtn.disabled = true;
     });
 
     img.addEventListener('click', function(e){
@@ -116,9 +119,18 @@
       const py = (e.clientY - r.top)  / r.height * img.naturalHeight;
       trapezoid[pickIndex] = [Math.round(px), Math.round(py)];
       writeInputs();
-      pickIndex++;
-      if(pickIndex>3) pickIndex = null;
       updateOverlay();
+      pickIndex++;
+      if(pickIndex <= 3){
+        const name = ['A','B','C','D'][pickIndex];
+        pickHint.textContent = `Picking mode: click image for Point ${name}`;
+      } else {
+        // finished
+        pickIndex = null;
+        pickHint.textContent = 'Pick complete — saved to localStorage';
+        pickBtn.disabled = false;
+        localStorage.setItem('cockpitSvgCfg', JSON.stringify({ trapezoid, btnAnchor }));
+      }
     });
 
     document.getElementById('saveOverlay').addEventListener('click', ()=>{
