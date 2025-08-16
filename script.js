@@ -21,10 +21,10 @@ const maxEpisode = 146;
 
 loadEpisodes();
 
-// Create dial element
-document.getElementById('dials').innerHTML = `<div class="dial">${String(currentNumber).padStart(3, '0')}</div>`;
+// Initialize dial content in the existing element
+document.getElementById('dial').textContent = String(currentNumber).padStart(3, '0');
 
-const dialElement = document.querySelector('.dial');
+const dialElement = document.getElementById('dial');
 
 // Create invisible touch area for better mobile interaction
 const touchArea = document.createElement('div');
@@ -36,7 +36,7 @@ touchArea.style.top = '50%';
 touchArea.style.transform = 'translate(-50%, -50%)';
 touchArea.style.zIndex = '10';
 
-document.getElementById('dials').appendChild(touchArea);
+document.getElementById('dial').appendChild(touchArea);
 
 // Shooting stars functionality
 function createShootingStar() {
@@ -142,8 +142,8 @@ function handleTouchMove(e) {
 
 // Update functions
 function updateDialOnly() {
-    const dialElement = document.querySelector('.dial');
-    dialElement.textContent = String(currentNumber).padStart(3, '0');
+    const dialElement = document.getElementById('dial');
+    if (dialElement) dialElement.textContent = String(currentNumber).padStart(3, '0');
 }
 
 function updateEpisodeContent() {
