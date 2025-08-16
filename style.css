@@ -31,19 +31,21 @@ body {
 
 .episode {
   position: absolute;
-  top: 22%;
+  top: 18%;
   left: 50%;
-  transform: translate(-50%, -50%) perspective(400px) rotateX(-25deg);
+  /* anchor top: remove vertical translate so height changes grow downward */
+  transform: translateX(-50%) perspective(400px) rotateX(-25deg);
   width: 55%;
   font-family: "Quicksand", sans-serif;
-  font-size: clamp(1rem, 2.4vw, 1.7rem); /* fluid but bounded */
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem); /* fluid but bounded */
   font-weight: 550;
   color: #4bb8e9;
   opacity: 0.4;
   border: 2px solid #4bb8e9;
   text-align: center;
   display: flex;
-  align-items: center;
+  /* keep the text pinned to the top so line breaks expand downward */
+  align-items: flex-start;
   justify-content: center;
   padding: 15px;
   pointer-events: none; /* prevent accidental clicks */
@@ -134,10 +136,10 @@ body {
   font-size: clamp(0.8rem, 1.6vw, 1.1rem);
 }
 
-#svg1 {
+/* #svg1 {
   position: absolute;
   top: 80%;
   left: 80%;
   transform: translate(-50%, -50%);
   z-index: 10;
-}
+} */
