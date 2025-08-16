@@ -1,0 +1,8 @@
+<svg id="overlaySvg" class="overlay" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" viewBox="0 0 1920 1080">
+  <polygon id="overlayPoly" points="400,50 1500,50 1400,950 500,950" fill="rgba(0,0,0,0.35)" stroke="rgba(255,255,255,0.9)" stroke-width="4" />
+  <foreignObject id="svgButtonFO" x="900" y="480" width="120" height="40">
+    <body xmlns="http://www.w3.org/1999/xhtml">
+      <button style="width:100%;height:100%;background:rgba(255,69,58,0.95);color:#fff;border:none;font-weight:600;">Start Engine</button>
+    </body>
+  </foreignObject>
+</svg>
