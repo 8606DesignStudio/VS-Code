@@ -8,23 +8,27 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="background">
-    <!-- Button positioned over cockpit image -->
-            <img src="cockpit.jpg" alt="Cockpit" class="cockpit-img">
-            <button class="cockpit-button" onclick="buttonClick()">Start Engine</button>
-                <div class="stripe-button">
+        <div class="background">
+            <!-- cockpit block you can control (image + overlays + button) -->
+            <div class="cockpit-bg">
+                <img src="cockpit.jpg" alt="Cockpit" class="cockpit-img">
+                <!-- Button positioned relative to the cockpit image -->
+                <button class="cockpit-button" onclick="buttonClick()">Start Engine</button>
+            </div>
+
+            <div class="stripe-button">
                 <a href="https://buy.stripe.com/00wcMX3W86cM4Eaa80d7q00" target="_blank">Stripe test</a>
                 <a href="scraper.html" class="scraper-link">Scraper</a>
                 <a href="pointer.html" class="new-page-link">Pointer</a>
-                </div>
-                        <div class="episode" id="episode">Episode 000: Welcome to the Show</div>
-        
-        <div class="dials" id="dials"></div>
-        
-        <!-- Instruction arrow positioned relative to background -->
-        <div class="instruction-arrow">
+            </div>
+
+            <div class="episode" id="episode">Episode 000: Welcome to the Show</div>
+
+            <div class="dials" id="dials"></div>
+
+            <!-- Instruction arrow positioned relative to background -->
+            <div class="instruction-arrow"></div>
         </div>
-    </div>
         <script type="module" src="script.js"></script>
 </body>
 

@@ -22,6 +22,23 @@ body {
   overflow: hidden;
 }
 
+/* controllable block that contains the cockpit image and overlays */
+.cockpit-bg {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+/* framed cockpit block for visual separation */
+.cockpit-bg {
+  margin: 18px auto; /* space around the cockpit block */
+  padding: 6px; /* inner spacing so border doesn't touch the image */
+  border: 2px solid rgba(204, 0, 0, 0.897);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.02); /* subtle background behind the image */
+  max-width: 1200px; /* keep cockpit from growing too wide on very large screens */
+}
+
 /* Responsive cockpit image */
 .cockpit-img {
   display: block;
