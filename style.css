@@ -6,20 +6,7 @@
   padding: 0;
 }
 body {
-  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto,
-    sans-serif;
-  color: white;
-  background: #000;
-}
-
-/* Container that holds the image and overlays */
-.background {
-  width: 100%;
-  max-width: 100vw;
-  margin: 0 auto;
-  position: relative;
-  display: block;
-  overflow: hidden;
+  background: #6e0000;
 }
 
 /* controllable block that contains the cockpit image and overlays */
@@ -27,16 +14,10 @@ body {
   position: relative;
   width: 100%;
   max-width: 100%;
-}
-
-/* framed cockpit block for visual separation */
-.cockpit-bg {
   margin: 18px auto; /* space around the cockpit block */
-  padding: 6px; /* inner spacing so border doesn't touch the image */
-  border: 2px solid rgba(204, 0, 0, 0.897);
+  padding: 5px; /* inner spacing so border doesn't touch the image */
+  border: 2px solid rgba(0, 204, 204, 0.897);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
-  background: rgba(0, 0, 0, 0.02); /* subtle background behind the image */
-  max-width: 1200px; /* keep cockpit from growing too wide on very large screens */
 }
 
 /* Responsive cockpit image */
@@ -44,45 +25,13 @@ body {
   display: block;
   width: 100%;
   height: auto;
-  max-width: 100%;
-}
-
-/* SVG overlay sits on top of the image and scales with it */
-.overlay {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none; /* clicks pass through unless enabled on children */
-}
-
-#overlayPoly {
-  fill: rgba(0, 0, 0, 0.35);
-  stroke: rgba(255, 255, 255, 0.9);
-  stroke-width: 4;
-}
-
-/* foreignObject will host the HTML button; allow pointer events on it */
-#svgButtonFO {
-  pointer-events: auto;
-}
-#svgButtonFO button {
-  width: 100%;
-  height: 100%;
-  display: block;
-  background: rgba(255, 69, 58, 0.95);
-  color: #fff;
-  border: none;
-  appearance: none;
-  -webkit-appearance: none;
-  font-weight: 600;
-  cursor: pointer;
+  max-width: 500%;
 }
 
 /* Fallback HTML button (if not using SVG foreignObject) */
 .cockpit-button {
   position: absolute;
-  top: 45%;
+  top: 60%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.8);
@@ -96,47 +45,29 @@ body {
   z-index: 20;
 }
 
-.cockpit-button:hover {
-  transform: translate(-50%, -50%) scale(1.03);
-}
-
 /* Small control group (stripe links) */
 .stripe-button {
   position: absolute;
-  bottom: 20px;
-  left: 20px;
+  bottom: 2%;
+  left: 3%;
   z-index: 40;
+  border: 3px solid #b9a700;
 }
 .stripe-button a {
   display: inline-block;
-  margin-right: 8px;
-  padding: 8px 12px;
   border-radius: 6px;
   background: linear-gradient(135deg, #4bb8e9, #87ceeb);
-  color: #fff;
+  color: #000000;
   text-decoration: none;
   font-weight: 600;
+  border: 3px solid #000cb9;
 }
 
 /* Episode title */
-.episode {
-  position: absolute;
-  top: 12%;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  max-width: 600px;
-  font-size: 1.1rem;
-  color: #4bb8e9;
-  opacity: 0.85;
-  text-align: center;
-  padding: 10px;
-  z-index: 30;
-}
 
 .episode {
   position: absolute;
-  top: 12%;
+  top: 19%;
   left: 50%;
   transform: translateX(-50%) perspective(400px) rotateX(-25deg);
   width: 60%;
@@ -173,12 +104,14 @@ body {
 /* Dials placeholder */
 .dials {
   position: absolute;
-  top: 33%;
+  top: 38%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 30;
 }
 .dial {
+  font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto,
+    sans-serif;
   width: 75px;
   display: flex;
   align-items: center;
@@ -187,6 +120,7 @@ body {
   transition: transform 0.2s;
   font-size: 1.7rem;
   font-weight: 550;
+  border: #b9a700 solid 2px;
   color: #4bb8e9;
   text-shadow: 0 0 8px rgba(75, 184, 233, 0.4), 0 0 16px rgba(75, 184, 233, 0.2);
 }
