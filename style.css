@@ -15,40 +15,25 @@
   max-width: 100%;
 }
 
-.cats {
-  font-size: 30px;
-  color: rgb(6, 88, 182);
-  margin: 20px;
-  position: relative;
-  z-index: 3;
-  border: rgb(0, 207, 214) solid 2px;
-}
-
 /* Button positioned over the cockpit image */
 .cockpit-button {
   position: absolute;
-  top: 45%; /* adjust to move vertically */
+  top: 45.2%; /* adjust to move vertically */
   left: 50%; /* adjust to move horizontally */
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.9);
-  color: #b9a700;
   font-weight: 600;
-  border: 1px solid rgba(255,255,255,0.9);
-  /* scale font and padding with viewport so button matches image size */
+  color: #b9a700;
   font-size: calc(8px + 1.2vmin);
-  padding: calc(5px + 0.6vmin) calc(8px + 1.0vmin);
   cursor: pointer;
-  border-radius: 6px;
-  z-index: 10; /* sit above other content */
-
-    /* make trapezoid */
-  -webkit-clip-path: polygon(10% 0%, 90% 0%, 75% 100%, 25% 100%);
-  clip-path: polygon(10% 0%, 90% 0%, 75% 100%, 25% 100%);
+  border: 1px solid rgba(255, 0, 0, 0.9);
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
   overflow: visible;
   display: inline-block;
   text-align: center;
+  z-index: 10;
 }
 
-.cockpit-button:hover{
+.cockpit-button:hover {
   transform: translate(-50%, -50%) scale(1.05);
 }
