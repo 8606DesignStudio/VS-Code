@@ -6,7 +6,7 @@
   padding: 0;
 }
 body {
-  background: #6e0000;
+  background: #530000;
   border: #ffffff;
 }
 
@@ -16,7 +16,7 @@ body {
   width: 100%;
   max-width: 100%;
   margin: 18px auto; /* space around the cockpit block */
-  padding: 5px; /* inner spacing so border doesn't touch the image */
+  padding: 0px; /* inner spacing so border doesn't touch the image */
   border: 2px solid rgba(0, 204, 204, 0.897);
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.6);
 }
@@ -31,17 +31,16 @@ body {
 
 .episode {
   position: absolute;
-  top: 18%;
-  left: 50%;
+  top: 17.5%;
+  left: 51%;
   /* anchor top: remove vertical translate so height changes grow downward */
   transform: translateX(-50%) perspective(400px) rotateX(-25deg);
-  width: 55%;
+  width: 65%;
   font-family: "Quicksand", sans-serif;
   font-size: clamp(1.3rem, 2.4vw, 1.7rem); /* fluid but bounded */
   font-weight: 550;
   color: #4bb8e9;
-  opacity: 0.4;
-  border: 2px solid #4bb8e9;
+  opacity: 0.43;
   text-align: center;
   display: flex;
   /* keep the text pinned to the top so line breaks expand downward */
@@ -74,27 +73,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.dial {
+  /* visual/interactive styles for the dial */
   font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto,
     sans-serif;
-  width: 100%;
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
   transition: transform 0.2s;
-  font-size: clamp(
-    1rem,
-    2.4vw,
-    1.7rem
-  ); /* fluid font size that scales but is constrained */
+  font-size: clamp(1rem, 2.4vw, 1.7rem);
   font-weight: 550;
   color: #4bb8e9;
   text-shadow: 0 0 8px rgba(75, 184, 233, 0.4), 0 0 16px rgba(75, 184, 233, 0.2);
   padding: 0.25rem 0;
 }
+/* removed stray .dial block; dial visuals are defined on #dial */
 
 .cockpit-button {
   position: absolute;

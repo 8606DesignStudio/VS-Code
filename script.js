@@ -21,17 +21,15 @@ const maxEpisode = 146;
 
 loadEpisodes();
 
-// Create dial element (stable structure) and a dedicated child for the text
+// Use the existing #dial container as the interactive element and create
+// a dedicated child for the numeric text so we don't overwrite children.
 const dialContainer = document.getElementById('dial');
-const innerDial = document.createElement('div');
-innerDial.className = 'dial';
 const dialText = document.createElement('span');
 dialText.id = 'dial-text';
 dialText.textContent = String(currentNumber).padStart(3, '0');
-innerDial.appendChild(dialText);
-if (dialContainer) dialContainer.appendChild(innerDial);
+if (dialContainer) dialContainer.appendChild(dialText);
 
-const dialElement = innerDial;
+const dialElement = dialContainer;
 
 // Create invisible touch area for better mobile interaction
 const touchArea = document.createElement('div');
