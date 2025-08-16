@@ -89,9 +89,9 @@ body {
 }
 /* removed stray .dial block; dial visuals are defined on #dial */
 
-.cockpit-button {
+/* .cockpit-button {
   position: absolute;
-  top: 60%;
+  top: 80%;
   left: 50%;
   transform: translate(-50%, -50%);
   background-color: rgba(0, 0, 0, 0.8);
@@ -103,7 +103,7 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   z-index: 20;
-}
+} */
 
 .footer-buttons {
   position: absolute;
