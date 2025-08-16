@@ -34,7 +34,7 @@ body {
   top: 22%;
   left: 50%;
   transform: translate(-50%, -50%) perspective(400px) rotateX(-25deg);
-  width: 50%;
+  width: 55%;
   font-family: "Quicksand", sans-serif;
   font-size: clamp(1rem, 2.4vw, 1.7rem); /* fluid but bounded */
   font-weight: 550;
