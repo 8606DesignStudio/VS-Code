@@ -26,19 +26,21 @@
 
 /* make the polygon visible */
 #overlayPoly {
-  fill: rgba(0,0,0,0.35);
-  stroke: rgba(255,255,255,0.9);
+  fill: rgba(0, 0, 0, 0.35);
+  stroke: rgba(255, 255, 255, 0.9);
   stroke-width: 4;
 }
 
 /* foreignObject will host the HTML button; allow pointer events on it */
-#svgButtonFO { pointer-events: auto; }
+#svgButtonFO {
+  pointer-events: auto;
+}
 
 #svgButtonFO button {
   width: 100%;
   height: 100%;
   display: block;
-  background: rgba(255,69,58,0.95);
+  background: rgba(255, 69, 58, 0.95);
   color: #fff;
   border: none;
   font-weight: 600;
