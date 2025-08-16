@@ -1,58 +1,19 @@
-#homeBackground {
-  text-align: left;
-  display: inline-block;
-  position: relative;
-}
-
-.article {
-  font-size: 16px;
-  color: black;
-  margin: 0px;
-  background: rgb(99, 194, 107);
-  padding: 10px;
-  position: relative;
-  left: 0px;
-}
-
-/* paragraph about cats */
-p {
-  font-size: 20px;
-  color: royalblue;
-  margin: 20px;
+.background {
   background-image: url("cockpit.jpg");
-  position: absolute;
+  background-size: contain; /* Makes image cover entire div */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents image repetition */
+  width: 100vw;
+  height: 100vh;
+  margin: -8px;
+  border: red solid 2px;
 }
 
-/* cat page */
-h1 {
-  font-size: 40px;
-  color: rgb(221, 138, 217);
-  margin: 20px;
-  position: absolute;
-  z-index: 1;
-  background: blue;
-  top: 0px;
-  left: 100px;
-}
-
-/* subheading */
-h2 {
+.cats {
   font-size: 30px;
-  color: rgb(221, 138, 217);
+  color: rgb(6, 88, 182);
   margin: 20px;
-  position: absolute;
-  z-index: 1;
-  background: blue;
-}
-
-.pulsingLight {
-  width: 100px;
-  height: 100px;
-  border-radius: 20%;
-  background-color: rgb(221, 138, 217);
-  position: absolute;
-  top: 0px;
-  left: 50px;
-  z-index: 10;
-  color: green;
+  position: relative;
+  z-index: 3;
+  border: rgb(0, 207, 214) solid 2px;
 }
