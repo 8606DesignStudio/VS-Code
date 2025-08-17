@@ -47,7 +47,7 @@ body {
   align-items: flex-start;
   justify-content: center;
   padding: 15px;
-  pointer-events: none; /* prevent accidental clicks */
+  pointer-events: auto; /* allow links inside to be clickable */
   transform-origin: center top;
   text-shadow: 0 0 5px rgba(138, 43, 226, 0.9),
     0 0 10px rgba(147, 112, 219, 0.8), 0 0 15px rgba(123, 104, 238, 0.7),
