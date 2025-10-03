@@ -8,60 +8,12 @@
 <body>
     
     <!-- Using production n8n webhook URL. If you need to test a future change, swap to the Test URL that has /webhook-test/ before activating the workflow again. -->
-    <form id="libForm" method="POST" action="https://n8n.srv901146.hstgr.cloud/webhook-test/zipcodeSubmission">
+    <form method="POST" action="https://n8n.srv901146.hstgr.cloud/webhook-test/zipcodeSubmission">
         <label for="requestText" style="display:block;margin-bottom:4px;font-weight:bold;">Enter your request:</label>
         <input type="text" id="requestText" name="requestText" placeholder="Enter your request here..." required style="width:100%;max-width:420px;padding:8px;margin-bottom:10px;">
         <button type="submit">Go!</button>
     </form>
-    <div id="result" style="margin-top:10px;font-family:Arial, sans-serif;font-size:14px;"></div>
-    <script>
-    // ==========================
-    // JS FORM HANDLER EXPLAINED
-    // ==========================
-    // Purpose: Stop the default page navigation when you press the button,
-    // send the text to the n8n webhook, and show a simple status message.
-
-    // 1. Grab references to the elements we need:
-    const form = document.getElementById('libForm');      // The <form> element
-    const input = document.getElementById('requestText'); // The text box the user types into
-    const resultBox = document.getElementById('result');  // The <div> where we show messages
-
-    // 2. Listen for the form's submit event (clicking the button or pressing Enter):
-    form.addEventListener('submit', async (e) => {
-        // 3. Prevent the browser's default behavior (which would load the webhook URL):
-        e.preventDefault();
-
-        // 4. Get the user's text and trim spaces at start/end:
-        const val = input.value.trim();
-        if(!val) return; // If empty, stop here (HTML 'required' also helps)
-
-        // 5. Tell the user we're working:
-        resultBox.textContent = 'Sending...';
-
-        try {
-            // 6. Send a POST request to the form's action URL.
-            // We send it as classic form data: requestText=<their text>
-            const res = await fetch(form.action, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: new URLSearchParams({ requestText: val })
-            });
-
-            // 7. If the webhook responded with a success status (200–299):
-            if(res.ok){
-                resultBox.textContent = 'Sent!'; // Show success
-                form.reset();                    // Clear the input box
-            } else {
-                // 8. Non‑success HTTP status (e.g., 400, 500) -> show status code
-                resultBox.textContent = 'Failed: ' + res.status;
-            }
-        } catch(err){
-            // 9. Network-level problem (no response at all):
-            resultBox.textContent = 'Network error';
-        }
-        // 10. Done. User can type again and submit another request.
-    });
-    </script>
+    <!-- On submit the browser will navigate to whatever response the webhook returns. -->
     
 </body>
 </html>
