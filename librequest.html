@@ -8,12 +8,17 @@
 <body>
     
     <!-- Using production n8n webhook URL. If you need to test a future change, swap to the Test URL that has /webhook-test/ before activating the workflow again. -->
-    <form method="POST" action="https://n8n.srv901146.hstgr.cloud/webhook/zipcodeSubmission">
+    <!-- target="hiddenFrame" sends the webhook response to the hidden iframe below instead of navigating the main page -->
+    <form method="POST" action="https://n8n.srv901146.hstgr.cloud/webhook/zipcodeSubmission" target="hiddenFrame">
         <label for="requestText" style="display:block;margin-bottom:4px;font-weight:bold;">Enter your request:</label>
         <input type="text" id="requestText" name="requestText" placeholder="Enter your request here..." required style="width:100%;max-width:420px;padding:8px;margin-bottom:10px;">
         <button type="submit">Go!</button>
     </form>
-    <!-- On submit the browser will navigate to whatever response the webhook returns. -->
+    
+    <!-- Hidden iframe catches the form submission response -->
+    <!-- name="hiddenFrame" matches the target attribute in the form above -->
+    <!-- display:none makes it invisible - the webhook response loads here silently -->
+    <iframe name="hiddenFrame" style="display:none;"></iframe>
     
 </body>
 </html>
