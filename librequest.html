@@ -8,17 +8,47 @@
 <body>
     
     <!-- Using production n8n webhook URL. If you need to test a future change, swap to the Test URL that has /webhook-test/ before activating the workflow again. -->
-    <!-- target="hiddenFrame" sends the webhook response to the hidden iframe below instead of navigating the main page -->
-    <form method="POST" action="https://n8n.srv901146.hstgr.cloud/webhook/zipcodeSubmission" target="hiddenFrame">
+    <!-- JavaScript intercepts form submission to capture and display the webhook response -->
+    <form id="requestForm">
         <label for="requestText" style="display:block;margin-bottom:4px;font-weight:bold;">Enter your request:</label>
         <input type="text" id="requestText" name="requestText" placeholder="Enter your request here..." required style="width:100%;max-width:420px;padding:8px;margin-bottom:10px;">
         <button type="submit">Go!</button>
     </form>
     
-    <!-- Hidden iframe catches the form submission response -->
-    <!-- name="hiddenFrame" matches the target attribute in the form above -->
-    <!-- display:none makes it invisible - the webhook response loads here silently -->
-    <iframe name="hiddenFrame" style="display:none;"></iframe>
+    <!-- Div to display the webhook's response -->
+    <div id="response" style="margin-top:20px;padding:10px;border:1px solid #ccc;background:#f9f9f9;"></div>
+    
+    <script>
+        // Listen for form submission
+        document.getElementById('requestForm').addEventListener('submit', async (e) => {
+            // Prevent default form behavior (prevents navigation)
+            e.preventDefault();
+            
+            // Gather form data
+            const formData = new FormData(e.target);
+            const responseDiv = document.getElementById('response');
+            
+            // Show loading state
+            responseDiv.innerHTML = 'Sending request...';
+            
+            try {
+                // Send POST request to webhook
+                const response = await fetch('https://n8n.srv901146.hstgr.cloud/webhook/zipcodeSubmission', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                // Get the response text from webhook
+                const result = await response.text();
+                
+                // Display the webhook's response
+                responseDiv.innerHTML = '<strong>Webhook Response:</strong><br>' + result;
+            } catch (error) {
+                // Show error if request fails
+                responseDiv.innerHTML = '<strong>Error:</strong> ' + error.message;
+            }
+        });
+    </script>
     
 </body>
 </html>
