@@ -9,6 +9,10 @@
     
     <!-- Cat SVG -->
     <div style="text-align:center;margin:20px 0;">
+        <!-- Thanks message (hidden by default) -->
+        <div id="thanksMessage" style="font-size:24px;font-weight:bold;color:#333;margin-bottom:10px;opacity:0;transition:opacity 0.5s;">
+            Thanks! 😊
+        </div>
         <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
           <!-- Tail (thicker and attached) -->
           <path d="M140 230 
@@ -80,6 +84,9 @@
             
             // Show loading state
             responseDiv.innerHTML = 'Sending request...';
+            
+            // Show "Thanks" message near the cat
+            document.getElementById('thanksMessage').style.opacity = '1';
             
             try {
                 // Send POST request to webhook
