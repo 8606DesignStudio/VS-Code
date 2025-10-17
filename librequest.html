@@ -7,6 +7,56 @@
 </head>
 <body>
     
+    <!-- Cat SVG -->
+    <div style="text-align:center;margin:20px 0;">
+        <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Tail (thicker and attached) -->
+          <path d="M140 230 
+                   C210 230, 210 150, 160 150 
+                   C220 170, 200 250, 140 230" 
+                fill="black" />
+
+          <!-- Body -->
+          <path d="M90 230 
+                   C80 180, 90 130, 120 120 
+                   C150 130, 160 180, 150 230 
+                   Z" fill="black" />
+
+          <!-- Head (centered and lowered) -->
+          <circle cx="120" cy="110" r="30" fill="black" />
+
+          <!-- Ears (larger) -->
+          <polygon points="95,105 110,65 123,105" fill="black" />
+          <polygon points="145,105 130,65 117,105" fill="black" />
+
+          <!-- Eyes -->
+          <ellipse cx="110" cy="110" rx="7" ry="10" fill="yellow"/>
+          <ellipse cx="130" cy="110" rx="7" ry="10" fill="yellow"/>
+          <circle cx="110" cy="110" r="2" fill="black"/>
+          <circle cx="130" cy="110" r="2" fill="black"/>
+
+          <!-- Nose -->
+          <circle cx="120" cy="122" r="2" fill="pink" />
+
+          <!-- Mouth -->
+          <path d="M115 128 Q120 132 125 128" stroke="white" stroke-width="1.2" fill="none" />
+
+          <!-- Whiskers Left -->
+          <line x1="90" y1="122" x2="110" y2="124" stroke="white" stroke-width="1.2"/>
+          <line x1="90" y1="118" x2="110" y2="120" stroke="white" stroke-width="1.2"/>
+          <line x1="90" y1="126" x2="110" y2="128" stroke="white" stroke-width="1.2"/>
+
+          <!-- Whiskers Right -->
+          <line x1="130" y1="124" x2="150" y2="122" stroke="white" stroke-width="1.2"/>
+          <line x1="130" y1="120" x2="150" y2="118" stroke="white" stroke-width="1.2"/>
+          <line x1="130" y1="128" x2="150" y2="126" stroke="white" stroke-width="1.2"/>
+
+          <!-- Paws -->
+          <ellipse cx="110" cy="230" rx="8" ry="5" fill="black"/>
+          <ellipse cx="140" cy="230" rx="8" ry="5" fill="black"/>
+        </svg>
+    </div>
+    
     <!-- Using production n8n webhook URL. If you need to test a future change, swap to the Test URL that has /webhook-test/ before activating the workflow again. -->
     <!-- JavaScript intercepts form submission to capture and display the webhook response -->
     <form id="requestForm">
