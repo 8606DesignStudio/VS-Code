@@ -129,7 +129,12 @@
                 });
                 
                 const result = await response.text();
-                responseDiv.innerHTML = '<strong>:)</strong><br>' + result;
+                
+                // Convert URLs in the response to clickable links
+                const urlPattern = /(https?:\/\/[^\s]+)/g;
+                const clickableResult = result.replace(urlPattern, '<a href="$1" target="_blank">$1</a>');
+                
+                responseDiv.innerHTML = '<strong>:)</strong><br>' + clickableResult;
             } catch (error) {
                 responseDiv.innerHTML = '<strong>Error:</strong> ' + error.message;
             }
