@@ -100,7 +100,9 @@
                     setTimeout(typeNextChar, 80 + Math.random() * 70);
                 }
             };
-            typeNextChar(); // Start typing
+            
+            // Wait 2 seconds before starting the typing effect
+            setTimeout(typeNextChar, 2000);
             
             try {
                 // Send POST request to webhook
