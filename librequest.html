@@ -7,7 +7,10 @@
 </head>
 <body>
     
-    <!-- Cat SVG -->
+    <!-- ========================================
+         CAT VISUAL SECTION
+         SVG cat graphic with chat message area
+         ======================================== -->
     <div style="text-align:center;margin:20px 0;">
         <svg width="300" height="300" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
           <!-- Tail (thicker and attached) -->
@@ -56,68 +59,78 @@
           <ellipse cx="140" cy="230" rx="8" ry="5" fill="black"/>
         </svg>
         
-        <!-- Thanks message (hidden by default, below cat, typewriter font) -->
-        <div id="thanksMessage" style="font-family:'Courier New',Courier,monospace;font-size:24px;font-weight:bold;color:#333;margin-top:10px;">
+        <!-- Cat's chat message display area (typewriter effect) -->
+        <div id="catChat" style="font-family:'Courier New',Courier,monospace;font-size:24px;font-weight:bold;color:#333;margin-top:10px;">
         </div>
     </div>
     
-    <!-- Using production n8n webhook URL. If you need to test a future change, swap to the Test URL that has /webhook-test/ before activating the workflow again. -->
-    <!-- JavaScript intercepts form submission to capture and display the webhook response -->
+    <!-- ========================================
+         FORM SECTION
+         User input for library request
+         ======================================== -->
     <form id="requestForm">
         <label for="requestText" style="display:block;margin-bottom:4px;font-weight:bold;">Enter your request:</label>
         <input type="text" id="requestText" name="requestText" placeholder="Enter your request here..." required style="width:100%;max-width:420px;padding:8px;margin-bottom:10px;">
         <button type="submit">Go!</button>
     </form>
     
-    <!-- Div to display the webhook's response -->
+    <!-- Webhook response display area -->
     <div id="response" style="margin-top:20px;padding:10px;border:1px solid #ccc;background:#f9f9f9;"></div>
     
+    <!-- ========================================
+         JAVASCRIPT SECTION
+         Form handling, typewriter effect, webhook
+         ======================================== -->
     <script>
-        // Listen for form submission
+        // ===== FORM SUBMISSION HANDLER =====
         document.getElementById('requestForm').addEventListener('submit', async (e) => {
-            // Prevent default form behavior (prevents navigation)
-            e.preventDefault();
+            e.preventDefault(); // Prevent page navigation
             
-            // Gather form data
             const formData = new FormData(e.target);
             const responseDiv = document.getElementById('response');
-            
-            // Show loading state
             responseDiv.innerHTML = 'Sending request...';
             
-            // Typewriter effect for "Thanks" message
-            const message = "Thanks.";
-            const thanksDiv = document.getElementById('thanksMessage');
-            thanksDiv.innerHTML = ''; // Clear any previous text
-            let i = 0;
+            // ===== CAT TYPEWRITER EFFECT =====
+            let currentMessage = "Thanks.";
+            const messageDiv = document.getElementById('catChat');
+            messageDiv.innerHTML = '';
+            let charIndex = 0;
             
-            // Type one character with varying speed for natural effect
+            // Types one character at a time with random delay (80-150ms)
             const typeNextChar = () => {
-                if (i < message.length) {
-                    thanksDiv.innerHTML += message.charAt(i);
-                    i++;
-                    // Random delay between 80-150ms for human-like typing
+                if (charIndex < currentMessage.length) {
+                    messageDiv.innerHTML += currentMessage.charAt(charIndex);
+                    charIndex++;
                     setTimeout(typeNextChar, 80 + Math.random() * 70);
                 }
             };
-
-            // Wait 600ms before starting the typing effect
-            setTimeout(typeNextChar, 600);
             
+            // Helper: Start typing a new message after a delay
+            const typeMessage = (newMessage, delay) => {
+                setTimeout(() => {
+                    currentMessage = newMessage;
+                    charIndex = 0;
+                    messageDiv.innerHTML = '';
+                    typeNextChar();
+                }, delay);
+            };
+
+            // Schedule messages: "Thanks." at 600ms, "Here, take this." at 4s
+            typeMessage("Thanks.", 600);
+            typeMessage("Here, take this.", 4000);
+
+            
+            // ===== WEBHOOK REQUEST =====
             try {
-                // Send POST request to webhook
+                // POST form data to n8n webhook
                 const response = await fetch('https://n8n.srv901146.hstgr.cloud/webhook/zipcodeSubmission', {
                     method: 'POST',
                     body: formData
                 });
                 
-                // Get the response text from webhook
                 const result = await response.text();
-                
-                // Display the webhook's response
                 responseDiv.innerHTML = '<strong>Webhook Response:</strong><br>' + result;
             } catch (error) {
-                // Show error if request fails
                 responseDiv.innerHTML = '<strong>Error:</strong> ' + error.message;
             }
         });
