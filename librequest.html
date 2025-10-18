@@ -88,19 +88,19 @@
             
             const formData = new FormData(e.target);
             const responseDiv = document.getElementById('response');
-            responseDiv.innerHTML = 'Sending request...';
+            responseDiv.innerHTML = 'soon...';
             
             // ===== CAT TYPEWRITER EFFECT =====
             let currentMessage = "Thanks.";
             const messageDiv = document.getElementById('catChat');
             messageDiv.innerHTML = '';
-            let charIndex = 0;
+            let i = 0;
             
             // Types one character at a time with random delay (80-150ms)
             const typeNextChar = () => {
-                if (charIndex < currentMessage.length) {
-                    messageDiv.innerHTML += currentMessage.charAt(charIndex);
-                    charIndex++;
+                if (i < currentMessage.length) {
+                    messageDiv.innerHTML += currentMessage.charAt(i);
+                    i++;
                     setTimeout(typeNextChar, 80 + Math.random() * 70);
                 }
             };
@@ -109,7 +109,7 @@
             const typeMessage = (newMessage, delay) => {
                 setTimeout(() => {
                     currentMessage = newMessage;
-                    charIndex = 0;
+                    i = 0;
                     messageDiv.innerHTML = '';
                     typeNextChar();
                 }, delay);
