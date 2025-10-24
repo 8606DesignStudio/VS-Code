@@ -21,23 +21,23 @@ function parseCSV() {
         const fields = parseCSVLine(line);
         
         console.log(`Line ${index + 1}: Found ${fields.length} fields`);
-        if (fields.length >= 19) {
-            console.log(`  Title: ${fields[1]}`);  // Column B (index 1)
-            console.log(`  Link: ${fields[2]}`);   // Column C (index 2)
-            console.log(`  Episode: ${fields[18]}`); // Column S (index 18)
+        if (fields.length >= 3) {
+            console.log(`  Title: ${fields[0]}`);  // Column A (index 0)
+            console.log(`  Link: ${fields[1]}`);   // Column B (index 1)
+            console.log(`  Episode: ${fields[2]}`); // Column C (index 2)
         }
         
-        // Column mapping: B=Title (index 1), C=Link (index 2), S=Episode (index 18)
-        if (fields.length >= 19) {
-            const title = fields[1];   // Column B
-            const link = fields[2];    // Column C
-            const episodeNum = parseInt(fields[18]); // Column S
+        // Column mapping: A=Title (index 0), B=Link (index 1), C=Episode (index 2)
+        if (fields.length >= 3) {
+            const title = fields[0];   // Column A
+            const link = fields[1];    // Column B
+            const episodeNum = parseInt(fields[2]); // Column C
             
             if (!isNaN(episodeNum)) {
                 episodes[episodeNum] = `<a href="${link}">${title}</a>`;
                 console.log(`Added episode ${episodeNum}`);
             } else {
-                console.log(`Failed to parse episode number: ${fields[18]}`);
+                console.log(`Failed to parse episode number: ${fields[2]}`);
             }
         }
     });
