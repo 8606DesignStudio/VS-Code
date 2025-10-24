@@ -6,18 +6,20 @@ async function loadEpisodes() {
     try {
         const module = await import('./data/generatedEpisodes.js?t=' + Math.random());
         episodes = module.episodes;
+        maxEpisode = episodes.length - 1; // Dynamically set max episode
         updateEpisodeContent();
     } catch (error) {
         console.error('Failed to load episodes:', error);
         const fallbackModule = await import('./data/generatedEpisodes.js');
         episodes = fallbackModule.episodes;
+        maxEpisode = episodes.length - 1; // Dynamically set max episode
         updateEpisodeContent();
     }
 }
 
 // Dial state and setup
 let currentNumber = 0;
-const maxEpisode = 146;
+let maxEpisode = 192; // Will be updated when episodes load
 
 loadEpisodes();
 
