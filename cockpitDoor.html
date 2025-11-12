@@ -5,33 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cockpit Door</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Quicksand', sans-serif;
-            height: 100vh;
-            overflow: hidden;
-            background: url('cockpitDoor.jpg') no-repeat center center fixed;
-            background-size: cover;
-        }
-
-        .content {
-            position: relative;
-            z-index: 1;
-            padding: 20px;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="content">
-        <!-- Your content here -->
+    <div class="cockpit-bg">
+        <img src="cockpitDoor.jpg" alt="Cockpit Door" class="cockpit-img">
+        <div class="episode" id="episode">Cockpit Door</div>
+        <div id="dial"></div>
+        <div class="footer-buttons">
+            <a href="https://buy.stripe.com/00wcMX3W86cM4Eaa80d7q00" target="_blank">Stripe test</a>
+            <a href="scraper.html" class="scraper-link">Scrappiest</a>
+            <a href="pointer.html" class="new-page-link">Pointer</a>
+            <a href="librequest.html" class="new-page-link">Lib Request</a>
+            <a href="cockpitDoor.html" class="new-page-link">Cockpit Door</a>
+        </div>
     </div>
+
+    <script type="module" src="script.js"></script>
 </body>
+
 </html>
