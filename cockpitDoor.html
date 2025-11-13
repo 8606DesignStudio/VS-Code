@@ -39,11 +39,11 @@
         
         .keypad-overlay {
             display: none;
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
-            height: 100vh;
+            width: 100%;
+            height: 100%;
             background-color: rgba(0, 0, 0, 0.45);
             z-index: 1000;
             justify-content: center;
@@ -64,11 +64,11 @@
     </style>
 </head>
 <body>
-    <div class="keypad-overlay" id="keypadOverlay">
-        <img src="CockpitKeypad.jpg" alt="Cockpit Keypad">
-    </div>
-    
     <div class="cockpit-bg">
+        <div class="keypad-overlay" id="keypadOverlay">
+            <img src="CockpitKeypad.jpg" alt="Cockpit Keypad">
+        </div>
+        
         <img src="cockpitDoor.jpg" alt="Cockpit Door" class="cockpit-img">
         <button class="keypad-button" id="keypadBtn">Enlarge Keypad</button>
         <div class="footer-buttons">
