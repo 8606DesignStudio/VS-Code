@@ -6,14 +6,84 @@
     <title>Cockpit Door</title>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .keypad-button {
+            position: absolute;
+            left: 3%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 6px;
+            font-family: "Quicksand", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            color: #4bb8e9;
+            text-decoration: none;
+            font-weight: 530;
+            padding: 8px 12px;
+            background: linear-gradient(135deg, #000000, #b95900);
+            font-size: clamp(0.8rem, 1.6vw, 1.1rem);
+            cursor: pointer;
+            border: none;
+            z-index: 40;
+            transition: transform 0.2s;
+        }
+        
+        .keypad-button:hover {
+            transform: translateY(-50%) scale(1.05);
+        }
+        
+        .keypad-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.45);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .keypad-overlay.active {
+            display: flex;
+        }
+        
+        .keypad-overlay img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+        }
+    </style>
 </head>
 <body>
+    <div class="keypad-overlay" id="keypadOverlay">
+        <img src="CockpitKeypad.jpg" alt="Cockpit Keypad">
+    </div>
+    
     <div class="cockpit-bg">
         <img src="cockpitDoor.jpg" alt="Cockpit Door" class="cockpit-img">
+        <button class="keypad-button" id="keypadBtn">Enlarge Keypad</button>
         <div class="footer-buttons">
             <a href="index.html" class="new-page-link">Turn Around</a>
         </div>
     </div>
+
+    <script>
+        const keypadBtn = document.getElementById('keypadBtn');
+        const keypadOverlay = document.getElementById('keypadOverlay');
+        
+        keypadBtn.addEventListener('click', () => {
+            keypadOverlay.classList.add('active');
+        });
+        
+        keypadOverlay.addEventListener('click', () => {
+            keypadOverlay.classList.remove('active');
+        });
+    </script>
 </body>
 
 </html>
